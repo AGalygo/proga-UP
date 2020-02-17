@@ -1,0 +1,11 @@
+commit 2e3152c4bfb5139616b51a548cbd901703c4da90 (HEAD -> master)
+Author: Alena <Nat_030178@mail.ru>
+Date:   Mon Feb 17 11:05:07 2020 +0300
+
+    add task1/status.txt
+
+commit a3d5264a3cc2f67350f1fcfaa87e0a9498d32102
+Author: Alena <Nat_030178@mail.ru>
+Date:   Mon Feb 17 00:33:42 2020 +0300
+
+    add .gitignore
