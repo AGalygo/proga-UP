@@ -1,0 +1,109 @@
+{
+	"info": {
+		"_postman_id": "5fc6f537-0dc5-4eb3-a9db-5176dd1ae997",
+		"name": "lab4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://logo.clearbit.com/facebook.com?greyscale=true&size=187&format=jpg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://logo.clearbit.com/twitter.com?size=300&format=jpg&greyscale=true",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://logo.clearbit.com/www.adme.ru?size=220&format=jpg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.recipepuppy.com/api/?i=tomato,cucumber&q=Salad&p=4",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.recipepuppy.com/api/?i=cheese,ham,olives&q=Pizza&p=2",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.recipepuppy.com/api/?i=butter,lemon&q=Pie&p=3",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://dog.ceo/api/breed/akita/images/random",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://dog.ceo/api/breed/borzoi/images/random",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://dog.ceo/api/breed/labrador/images/random",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
