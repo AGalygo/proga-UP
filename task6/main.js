@@ -62,7 +62,7 @@ var posts = [ //массив постов
         id: '7',
         description: 'Это седьмой пост! Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
         createdAt: new Date('2020-02-25T12:05:00'),
-        author: 'Галыго Алена',
+        author: '',
         photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
         hashTags: ['#ill', '#health'],
         likes: ['Alena_G', 'Иванов Иван']
@@ -82,7 +82,7 @@ var posts = [ //массив постов
         createdAt: new Date('2020-03-05T22:19:00'),
         author: 'Иванов Иван',
         photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
-        hashTags: ['#ill', '#health'],
+        hashTags: ['ill', 'health'],
         likes: ['Alena_G', 'Иванов Иван']
     },
     {
@@ -218,7 +218,7 @@ var posts = [ //массив постов
           }
          return true;
   }
-//validatePost(posts[5]);
+
 function getPosts(skip, top, filterConfig) {
 
     if (!filterConfig) {
@@ -274,7 +274,7 @@ function getPosts(skip, top, filterConfig) {
         }
     }
    }
-//getPosts(1, 5, {author:'Иванов Иван'});
+
 function addPost(post) {
         var id = 0;
         for (var item of posts) {
@@ -291,14 +291,7 @@ function addPost(post) {
         }
         return false;
    }
-   // addPost({
-   //     id: '1',
-   //     description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
-   //     createdAt: new Date('2020-03-17T23:00:00'),
-   //     author: 'Иванов Иван',
-   //     photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg'
-   //
-   // });
+
 
 function editPost(id, post) {
     var num = posts.findIndex(item => item.id === id);
@@ -314,13 +307,42 @@ function editPost(id, post) {
     }
     return true;
    }
-   // getPost('5');
-   // editPost('5', { photoLink: 'https://delo.ua/files/news/images/3646/4/picture2_koronavirus-poluc_364604_p0.jpg' } );
+
+
    // getPost('5');
 
 function removePost(id) {
     return posts.splice(posts.findIndex(item => item.id === id),1);
 }
-// removePost('7');
-// getPosts(0, 17);
-//getPosts(0,10,{dateFrom :new Date('2020-03-17T23:00:00')});
+console.log(validatePost(posts[5])); //все правильно, выведет true
+console.log(validatePost(posts[8])); //нет знака '#' в тегах, выведет false
+console.log(validatePost(posts[6])); //нет имени автора, выведет false
+console.log(getPost('5'));//вернет пятый пост
+console.log(getPost('22'));//не найдет пост с таким id, потому что его нет
+console.log(getPosts(0, 17));
+console.log(getPosts(0,10,{dateFrom :new Date('2020-03-17T23:00:00')}));
+console.log(getPosts(1, 5, {author:'Иванов Иван'}));
+console.log(editPost('5', { photoLink: 'https://delo.ua/files/news/images/3646/4/picture2_koronavirus-poluc_364604_p0.jpg' } ));
+console.log(addPost({
+     id: '1',
+     description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
+    createdAt: new Date('2020-03-17T23:00:00'),
+     author: '',
+     photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
+    hashTags: [],
+    likes: []
+
+ })); //вернет false, потому что в посте нет имени автора
+console.log(addPost({
+    id: '1',
+    description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
+    createdAt: new Date('2020-03-17T23:00:00'),
+    author: 'Иванов Иван',
+    photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
+    hashTags: ["#health"],
+    likes: []
+
+})); //вернет true, пост добавился
+console.log(getPost('7'));//вернет пост
+console.log(removePost('7'));//вернет удаляемый пост
+console.log(getPost('7'));//не вернет, потому что удалили
