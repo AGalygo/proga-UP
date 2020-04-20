@@ -1,6 +1,6 @@
 "use strict"
 class PostList {
-
+    _posts = [];
     constructor(posts) {
         this._posts = posts;
     }
@@ -9,13 +9,10 @@ class PostList {
         if (!post) {
             return false;
         }
-        if (post.id === "" || typeof post.id !== "string" || post.id<0) {
-            return false;
-        }
+
         if (post.description === "" || typeof post.description !== "string" || post.description.length>200)
             return false;
-        if (!(post.createdAt instanceof Date))
-            return false;
+
         if (post.author === "" || typeof post.author !== "string")
             return false;
         if (typeof post.photoLink !== "string") //необязательное поле
@@ -31,6 +28,17 @@ class PostList {
             }
         return true;
     }
+    authorsName() {
+        let name = [];
+        this._posts.forEach(function (item) {
+            if (!item.isDelete) {
+                name.push(item.author);
+            }
+        });
+        let unique = PostList.unique(name);
+        return unique;
+    }
+
     get(id) {
         if (typeof id == "string" && id.valueOf() > 0) {
             return this._posts.find((item) => item.id == id);
@@ -38,71 +46,53 @@ class PostList {
         return false;
     }
     getPage(skip, top, filterConfig) {
-
+        let result;
         if (!filterConfig) {
-            return this._posts.sort((function(a, b) {
-                    let dateA=new Date(a.createdAt), dateB=new Date(b.createdAt)
-                    return dateA-dateB}
-            )).slice(skip, skip+top);
+            result = this._posts;
         }
 
         if (filterConfig) {
 
             if (filterConfig.author) {
-                return this._posts.filter((function (post) {
-                        return post.author === filterConfig.author
+                result = this._posts.filter((function (post) {
+                        return post.author.toLowerCase().indexOf(filterConfig.author.toLowerCase())+1;
                     }
-                )).sort((function (a, b) {
-                        let dateA = new Date(a.createdAt), dateB = new Date(b.createdAt)
-                        return dateA - dateB
-                    }
-                )).slice(skip, skip + top);
+                ));
             }
 
             if (filterConfig.dateFrom) {
-                return this._posts.filter(function (post) {
-                    return post.createdAt.getTime() >= filterConfig.dateFrom.getTime();
-                }).sort((function (a, b) {
-                        let dateA = new Date(a.createdAt), dateB = new Date(b.createdAt)
-                        return dateA - dateB
-                    }
-                )).slice(skip, skip + top);
+                result = this._posts.filter(function (post) {
+                    return post.createdAt >= filterConfig.dateFrom;
+                });
             }
             if (filterConfig.dateTo) {
-                return this._posts.filter(function (post) {
-                    return post.createdAt.getTime() <= filterConfig.dateFrom.getTime();
-                }).sort((function (a, b) {
-                        let dateA = new Date(a.createdAt), dateB = new Date(b.createdAt)
-                        return dateA - dateB
-                    }
-                )).slice(skip, skip + top);
+                result = this._posts.filter(function (post) {
+                    return post.createdAt<= filterConfig.dateFrom;
+                });
             }
-            if (filterConfig.hashTagSearch) {
-                return this._posts.filter(function (post) {
-                    for (let hashTag of post.hashTags) {
-                        if (hashTag === filterConfig.hashTagSearch) {
-                            return true;
-                        }
+            if (filterConfig.hashTagSearch && filterConfig.hashTagSearch.length!=0) {
+                result = this._posts.filter(function (post) {
+                    if(typeof post.hashTags!== "undefined") {
+                        return filterConfig.hashTagSearch.every(function (tag) {
+                            return post.hashTags.includes(tag);
+                        });
                     }
-                }).sort((function (a, b) {
-                        let dateA = new Date(a.createdAt), dateB = new Date(b.createdAt)
-                        return dateA - dateB
-                    }
-                )).slice(skip, skip + top);
+
+                });
             }
         }
+        return result.sort((function(a, b) {
+                return a.createdAt-b.createdAt}
+        )).slice(skip, skip+top);
     }
 
     add(post) {
-        let id = 0;
-        for (let item of this._posts) {
-            if (parseInt(item.id) > id) {
-                id = parseInt(item.id);
-            }
-        }
-        id=id+1;
-        post.id = id+"";
+        const date = new Date();
+        post.id=+date;
         post.createdAt = new Date();
+        //как добавить автора вообще?
+        //post.author = author;
+
         if (PostList.validatePost(post)) {
             this._posts.push(post);
             return true;
@@ -123,19 +113,23 @@ class PostList {
         if (post.hashTags) {
             this._posts[num].hashTags = post.hashTags;
         }
-        return true;
+        if (PostList.validatePost(this._posts[num]) === false){
+            return false;
+        }
+        else
+            return true;
     }
+
 
     remove(id) {
 
-
-        if (typeof id == "string" && id.valueOf() >= 0) {
-           this._posts.splice(this._posts.findIndex(item => item.id === id),1);
+        let tmp = this._posts.slice();
+            tmp.splice(tmp.findIndex(item => item.id === id), 1);
+            this._posts=tmp.slice();
             return true;
-        }
 
-        return false;
     }
+
     addAll(mass) {
         let result = [];
         for (let item of this._posts) {
@@ -338,16 +332,16 @@ let postsA=[
             likes: ['Alena_G', 'Иванов Иван']
         }
     ];
-let A = new PostList(postsA);
+let tweets = new PostList(postsA);
 let postsB = [];
-console.log(A.addAll(postsB));//вернет посты с id 7(нет имени автора) и 9(нет "#" в тегах)
-console.log(A.get('5'));
-console.log(A.get('22'));//не найдет пост с таким id, потому что его нет
-console.log(A.getPage(0, 17));
-console.log(A.getPage(0,10,{dateFrom :new Date('2020-03-17T23:00:00')}));
-console.log(A.getPage(1, 5, {author:'Иванов Иван'}));
-console.log(A.edit('5', { photoLink: 'https://delo.ua/files/news/images/3646/4/picture2_koronavirus-poluc_364604_p0.jpg' } ));
-console.log(A.add({
+console.log(tweets.addAll(postsB));//вернет посты с id 7(нет имени автора) и 9(нет "#" в тегах)
+console.log(tweets.get('5'));
+console.log(tweets.get('22'));//не найдет пост с таким id, потому что его нет
+console.log(tweets.getPage(0, 17));
+console.log(tweets.getPage(0,10,{dateFrom :new Date('2020-03-17T23:00:00')}));
+console.log(tweets.getPage(1, 5, {author:'Иванов Иван'}));
+console.log(tweets.edit('5', { photoLink: 'https://delo.ua/files/news/images/3646/4/picture2_koronavirus-poluc_364604_p0.jpg' } ));
+console.log(tweets.add({
     id: '1',
     description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
     createdAt: new Date('2020-03-17T23:00:00'),
@@ -357,7 +351,7 @@ console.log(A.add({
     likes: []
 
 })); //вернет false, потому что в посте нет имени автора
-console.log(A.add({
+console.log(tweets.add({
     id: '1',
     description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
     createdAt: new Date('2020-03-17T23:00:00'),
@@ -367,11 +361,11 @@ console.log(A.add({
     likes: []
 
 })); //вернет true, пост добавился
-console.log(A.get('7'));//вернет пост
-console.log(A.remove('7'));//удаляется пост, вернет true
-console.log(A.get('7'));//не вернет, потому что удалили
-console.log(A.get('11'));
-console.log(A.add({
+console.log(tweets.get('7'));//вернет пост
+console.log(tweets.remove('7'));//удаляется пост, вернет true
+console.log(tweets.get('7'));//не вернет, потому что удалили
+console.log(tweets.get('11'));
+console.log(tweets.add({
     id: '7',
     description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
     createdAt: new Date('2020-03-17T23:00:00'),
@@ -381,4 +375,4 @@ console.log(A.add({
     likes: []
 
 }));
-console.log(A.getPage(0, 25));
+console.log(tweets.getPage(0, 25));
