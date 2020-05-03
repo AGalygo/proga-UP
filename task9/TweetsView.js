@@ -88,6 +88,17 @@ class TweetsView {
             document.getElementsByClassName('log_button')[0].innerHTML = `<p><b><u>Log Out</u></b></p>`;
             element.appendChild(addButt);
         }
+    }
+    addAuthors(PostList) {
+        let authors=PostList.authorsName();
+        console.log(authors);
+        let element = document.getElementById("searchName");
+        for(let i=0; i<authors.length; i++) {
+            console.log(authors[i]);
+            let opt = document.createElement("option");
+            opt.textContent=authors[i];
+            element.appendChild(opt);
+        }
 
     }
 
@@ -116,11 +127,15 @@ class TweetsView {
         }
         let tweets = PostList.getPage(skip, top, filterConfig);
         if(filterConfig) {
-            if (filterConfig.author) {
-                document.getElementById('searchName').placeholder = filterConfig.author;
-            }
+            // if (filterConfig.author) {
+            //     document.getElementById('searchName').placeholder = filterConfig.author;
+            // }
             if (filterConfig.hashTagSearch) {
-
+                let tags="";
+                for(let i=0; i<filterConfig.hashTagSearch.length; i++) {
+                    tags=tags+filterConfig.hashTagSearch[i]+" ";
+                }
+                document.getElementById('searchTags').placeholder = tags;
             }
         }
         for (let i = tweets.length-1; i >=0 ; i--) {
@@ -198,3 +213,5 @@ console.log(A.userProfile("Иванов Иван"));
 console.log(A.getPage(0, 10, PostList, "Иванов Иван"));
 console.log(A.editPost('2', { description: 'Это измененный пост!'}, PostList ) );
 console.log(A.getPage(0, 10, PostList, "Иванов Иван", {author:'Галыго Алена'}));
+console.log(A.getPage(0, 10, PostList, "Иванов Иван", {hashTagSearch:["#health"]}));
+console.log(A.addAuthors(PostList));
