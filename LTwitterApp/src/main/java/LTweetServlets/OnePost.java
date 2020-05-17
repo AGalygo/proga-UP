@@ -1,7 +1,8 @@
 package LTweetServlets;
 
 import PostWork.Tweet;
-import PostWork.TweetsWork;
+import PostWork.TweetsService;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,12 +13,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class OnePost extends HttpServlet {
-    private TweetsWork posts = new TweetsWork();
+
+    private TweetsService posts = TweetsService.getInstance();
+
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // response.getOutputStream().println("yes, it works");
         String str = request.getQueryString();
-        String sID=str.substring(3,str.length());
+        String sID = str.substring(3, str.length());
         int id = Integer.parseInt(sID);
         response.getOutputStream().println("it Works id= " + id);
         if (posts.removePost(id)) {
@@ -26,23 +29,25 @@ public class OnePost extends HttpServlet {
             response.getOutputStream().println("Not found\n");
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-       // response.getOutputStream().println("yes, it works");
+        // response.getOutputStream().println("yes, it works");
         String str = request.getQueryString();
-        String sID=str.substring(3,str.length());
+        String sID = str.substring(3, str.length());
         int id = Integer.parseInt(sID);
         Tweet tweet = posts.getPost(id);
 
         if (tweet != null) {
-            response.getOutputStream().println(tweet.toString());
-           // response.getOutputStream().println(str1);
+            //response.getOutputStream().println(tweet.toString());
+            response.getWriter().print((new Gson()).toJson(posts.getPost(id)));
         } else {
             response.getOutputStream().println("Not found\n");
         }
     }
+
     @Override
-    protected void doPost(HttpServletRequest request,HttpServletResponse response) throws IOException{
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         //Date sID = new Date();
         //int id=+sID;
@@ -50,12 +55,13 @@ public class OnePost extends HttpServlet {
         String author = request.getParameter("author");
         String photoLink = request.getParameter("photoLink");
         Date date = new Date();
-        String createdAt=date.toString();
+        String createdAt = date.toString();
         //добавить хештеги
 
-        Tweet tweet = new Tweet(id, description, createdAt, author,  photoLink, new ArrayList<>(), new ArrayList<>());
+        Tweet tweet = new Tweet(id, description, createdAt, author, photoLink, new ArrayList<>(), new ArrayList<>());
 
-        response.getOutputStream().println(tweet.toString());
+        //response.getOutputStream().println(tweet.toString());
+        response.getWriter().print((new Gson()).toJson(posts.getPost(id)));
         if (posts.addPost(tweet)) {
             response.getOutputStream().println("Success\n");
         } else {

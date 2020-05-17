@@ -186,38 +186,38 @@ var posts = [ //массив постов
     },
 ];
 
-function getPost(id) {
-    if (typeof id == "string" && id.valueOf() > 0) {
+   function getPost(id) {
+       if (typeof id == "string" && id.valueOf() > 0) {
         return posts.find((item) => item.id == id);
     }
     return "неверный ввод";
 }
-
-function validatePost(post) {
-    if (!post) {
-        return false;
-    }
-    if (post.description === "" || typeof post.description !== "string" || post.description.length > 200)
-        return false;
-    // if (!(post.createdAt instanceof Date))
-    //     return false;
-    // if (post.author === "" || typeof post.author !== "string")
-    //     return false;
-    if (typeof post.photoLink !== "string") //необязательное поле
-        return false;
-    if (post.hashTags.length == 0) {
-        return true;
-    } else
-        for (let i = 0; i < post.hashTags.length; i++) {
-            if (!(post.hashTags[i].substring(0, 1) === '#')) {
-                return false;
-            }
-        }
-    return true;
-}
+  function validatePost(post) {
+      if (!post) {
+          return false;
+      }
+      if (post.description === "" || typeof post.description !== "string" || post.description.length>200)
+          return false;
+      // if (!(post.createdAt instanceof Date))
+      //     return false;
+      // if (post.author === "" || typeof post.author !== "string")
+      //     return false;
+      if (typeof post.photoLink !== "string") //необязательное поле
+          return false;
+      if(post.hashTags.length == 0) {
+          return true;
+      }
+      else
+         for (let i = 0; i < post.hashTags.length; i++) {
+              if (!(post.hashTags[i].substring(0, 1) === '#')) {
+                  return false;
+              }
+          }
+         return true;
+  }
 
 function getPosts(skip, top, filterConfig) {
-    let result;
+       let result;
     if (!filterConfig) {
         result = posts;
 
@@ -227,7 +227,7 @@ function getPosts(skip, top, filterConfig) {
 
         if (filterConfig.author) {
             result = posts.filter((function (post) {
-                    return post.author.toLowerCase().indexOf(filterConfig.author.toLowerCase()) + 1;
+                    return post.author.toLowerCase().indexOf(filterConfig.author.toLowerCase())+1;
                 }
             ));
         }
@@ -242,35 +242,34 @@ function getPosts(skip, top, filterConfig) {
                 return post.createdAt.getTime() <= filterConfig.dateFrom.getTime();
             });
         }
-        if (filterConfig.hashTagSearch && filterConfig.hashTagSearch.length != 0) {
+        if (filterConfig.hashTagSearch && filterConfig.hashTagSearch.length!=0) {
             result = posts.filter(function (post) {
-                if (typeof post.hashTags !== "undefined") {
-                    return filterConfig.hashTagSearch.every(function (tag) {
-                        return post.hashTags.includes(tag);
-                    });
-                }
+             if(typeof post.hashTags!== "undefined") {
+                 return filterConfig.hashTagSearch.every(function (tag) {
+                   return post.hashTags.includes(tag);
+                 });
+             }
 
             });
         }
     }
-    return result.sort((function (a, b) {
-            return a.createdAt - b.createdAt
-        }
-    )).slice(skip, skip + top);
-}
+    return result.sort((function(a, b) {
+            return a.createdAt-b.createdAt}
+    )).slice(skip, skip+top);
+   }
 
 function addPost(post) {
-    const date = new Date();
-    post.id = +date;
-    post.createdAt = new Date();
-    //как добавить автора вообще?
-    //post.author = author;
-    if (validatePost(post)) {
-        posts.push(post);
-        return true;
-    }
-    return false;
-}
+       const date = new Date();
+       post.id=+date;
+        post.createdAt = new Date();
+        //как добавить автора вообще?
+        //post.author = author;
+        if (validatePost(post)) {
+            posts.push(post);
+            return true;
+        }
+        return false;
+   }
 
 
 function editPost(id, post) {
@@ -285,52 +284,52 @@ function editPost(id, post) {
     if (post.hashTags) {
         posts[num].hashTags = post.hashTags;
     }
-    if (validatePost(posts[num]) === false) {
+    if (validatePost(posts[num]) === false){
         return false;
-    } else
+    }
+    else
         return true;
-}
+   }
 
 
-// getPost('5');
+   // getPost('5');
 
 function removePost(id) {
     let tmp = posts.slice();
     tmp.splice(tmp.findIndex(item => item.id === id), 1);
-    posts = tmp.slice();
+    posts=tmp.slice();
     return true;
 }
-
 // console.log(validatePost(posts[5])); //все правильно, выведет true
 // console.log(validatePost(posts[8])); //нет знака '#' в тегах, выведет false
 // console.log(validatePost(posts[6])); //нет имени автора, выведет false
 // console.log(getPost('5'));//вернет пятый пост
 // console.log(getPost('22'));//не найдет пост с таким id, потому что его нет
 //console.log(getPosts(0, 22));
-console.log(getPosts(0, 10, {dateFrom: new Date('2020-03-17T23:00:00')}));
-console.log(getPosts(1, 5, {author: 'Иванов Иван'}));
+console.log(getPosts(0,10,{dateFrom :new Date('2020-03-17T23:00:00')}));
+console.log(getPosts(1, 5, {author:'Иванов Иван'}));
 console.log(getPosts(1, 5, {hashTagSearch: ['#love']}));
 //console.log(editPost('5', { photoLink: 'https://delo.ua/files/news/images/3646/4/picture2_koronavirus-poluc_364604_p0.jpg' } ));
-console.log(editPost('4', {description: "aaaaa"}));
-console.log(addPost({
-    id: '1',
-    description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
-    createdAt: new Date('2020-03-17T23:00:00'),
-    author: '',
-    photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
-    hashTags: [],
-    likes: []
+console.log(editPost('4', { description: "aaaaa" } ));
+ console.log(addPost({
+      id: '1',
+      description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
+     createdAt: new Date('2020-03-17T23:00:00'),
+      author: '',
+      photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
+     hashTags: [],
+     likes: []
 
-})); //вернет false, потому что в посте нет имени автора
-console.log(addPost({
-    id: '1',
-    description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
-    createdAt: new Date('2020-03-17T23:00:00'),
-    author: 'Иванов Иван',
-    photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
-    hashTags: ["#health"],
-    likes: []
-})); //вернет true, пост добавился
+  })); //вернет false, потому что в посте нет имени автора
+ console.log(addPost({
+     id: '1',
+     description: 'Более 76 тыс. человек во всем мире уже излечились от заболевания, спровоцированного новым коронавирусом, тогда как количество смертей превысило 6,4 тыс.',
+     createdAt: new Date('2020-03-17T23:00:00'),
+     author: 'Иванов Иван',
+     photoLink: 'https://www.pressball.by/images/stories/2020/03/20200310231542.jpg',
+     hashTags: ["#health"],
+     likes: []
+ })); //вернет true, пост добавился
 // console.log(getPost('7'));//вернет пост
 // console.log(removePost('7'));//вернет удаляемый пост
 // console.log(getPost('7'));//не вернет, потому что удалили

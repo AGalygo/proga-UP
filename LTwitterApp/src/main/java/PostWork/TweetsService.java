@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
 import com.google.gson.Gson;
 
-public class TweetsWork {
+public class TweetsService {
     private List<Tweet> TWList;
 
-    public TweetsWork(){
+    public static TweetsService INSTANCE = null;
+
+    public static TweetsService getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new TweetsService();
+        }
+        return INSTANCE;
+    }
+
+    private TweetsService() {
         this.TWList = new ArrayList<Tweet>(Arrays.asList(
                 new Tweet(1, "This is first post", "2020-01-17T23:00:00",
                         "Ivanov Ivan",
@@ -37,27 +47,25 @@ public class TweetsWork {
                         new ArrayList<String>(Arrays.asList("#ill", "#health")), new ArrayList<String>(Arrays.asList("Alena_G", "Ivanov Ivan")))));
 
 
-
     }
 
     public List<Tweet> getPage(int skip, int top, Map<String, String> filterConfig) {
         List<Tweet> filteredPosts = new ArrayList<Tweet>();
-        for(Map.Entry pair : filterConfig.entrySet()) {
+        for (Map.Entry pair : filterConfig.entrySet()) {
             if (pair.getKey().equals("author")) {
                 TWList.stream()
                         .filter(tweet -> tweet.getAuthor().toLowerCase().contains(pair.getValue().toString().toLowerCase()))
                         .forEach(filteredPosts::add);
-            }
-            else if (pair.getKey().equals("creationDate")) {
+            } else if (pair.getKey().equals("creationDate")) {
                 TWList.stream()
                         .filter(tweet -> tweet.getCreatedAt().equals(pair.getValue()))
                         .forEach(filteredPosts::add);
             }
         }
-        if(filterConfig.size() == 0) {
+        if (filterConfig.size() == 0) {
             filteredPosts = new ArrayList<Tweet>(TWList);
         }
-        if(top > filteredPosts.size()) {
+        if (top > filteredPosts.size()) {
             top = filteredPosts.size();
         }
         if (skip >= filteredPosts.size()) {
@@ -72,7 +80,7 @@ public class TweetsWork {
     }
 
     public Tweet getPost(int id) {
-        for (Tweet tweet: TWList) {
+        for (Tweet tweet : TWList) {
             if (tweet.getId() == id) {
                 return tweet;
             }
@@ -81,34 +89,33 @@ public class TweetsWork {
     }
 
     public boolean validatePost(Tweet tweet) {
-        for(Tweet post : TWList) {
+        for (Tweet post : TWList) {
             if (post.getId() == tweet.getId()) {
                 return false;
             }
         }
-        if(tweet.getDescription() == null || tweet.getDescription().length() > 200)
+        if (tweet.getDescription() == null || tweet.getDescription().length() > 200)
             return false;
-        if(tweet.getAuthor() == null)
+        if (tweet.getAuthor() == null)
             return false;
 
-        if(tweet.getCreatedAt() == null )
+        if (tweet.getCreatedAt() == null)
             return false;
 
         return true;
     }
 
     public boolean addPost(Tweet tweet) {
-        if(validatePost(tweet)) {
+        if (validatePost(tweet)) {
             TWList.add(tweet);
             return true;
-       }
-        else
+        } else
             return false;
     }
 
     public boolean editPost(int id, Tweet filterConfig) {
         Tweet tweet = getPost(id);
-        if(tweet == null) {
+        if (tweet == null) {
             return false;
         }
         if (filterConfig.getDescription() != null && filterConfig.getDescription().length() <= 200) {
@@ -122,17 +129,16 @@ public class TweetsWork {
 
     public boolean removePost(int id) {
         Tweet tweet = getPost(id);
-        if(tweet != null) {
+        if (tweet != null) {
             TWList.remove(tweet);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    public String toJsonString(List<Tweet> list)
-    {
-        if(list.size() > 0) {
+    public String toJsonString(List<Tweet> list) {
+        if (list.size() > 0) {
             Gson gson = new Gson();
             StringBuilder sb = new StringBuilder();
             sb.append("[");
@@ -144,4 +150,5 @@ public class TweetsWork {
         }
         return "";
     }
+
 }

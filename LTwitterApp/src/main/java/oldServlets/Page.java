@@ -1,4 +1,5 @@
 package oldServlets;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,6 @@ import java.io.IOException;
 public class Page extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        request.getRequestDispatcher("/WEB-INF/page.html").forward(request,response);
+        request.getRequestDispatcher("/WEB-INF/page.html").forward(request, response);
     }
 }

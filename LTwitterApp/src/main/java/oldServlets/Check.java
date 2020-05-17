@@ -1,4 +1,5 @@
 package oldServlets;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ public class Check extends HttpServlet {
         try {
 
             response.setContentType("application/json");
-            PrintWriter out=response.getWriter();
+            PrintWriter out = response.getWriter();
             out.print("{\"success\":true}");
             out.flush();
         } catch (Exception e) {
