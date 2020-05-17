@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+      <meta name="keywords" content="HTML, BSU training, twitter, prototypes">
+    <title>Little home Twitter</title>
+      <link rel="shortcut icon" href="feather1.ico" type="image/x-icon">
+
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+          <img src="fearher11.png" class="logo_img" alt="Little home twitter">
+          <a id="nick">
+             <span class="hSp1">
+             Hello <br> Alena_GL!
+          </span>
+          </a>
+
+          <span class="hRight">
+              <img src="door.jpg" class="img_logOut" alt="вход в твиттер">
+              <button type = "button" class = "log_button" id="log_button"><p><b><u>Log In</u></b></p></button>
+              <button type = "button" class = "logout_button" id="logout_button"><p><b><u>Log Out</u></b></p></button>
+          </span>
+      </header>
+
+        <main class="forms">
+            <b>Welcome!</b>
+            <p> </p>
+          <div class="addForm">
+              <form id="addForm">
+                  <p style="text-align: right" id="Author">Author</p>
+                  <input name="photoLink" class="add-window" placeholder="photo link" type="text">
+                  <label>
+                      <p><textarea name="description" class="add-window" placeholder="description" maxlength="200" rows="4"></textarea></p>
+                      <p><textarea name="tags" class="add-window" placeholder="#tags" maxlength="200" rows="4"></textarea></p>
+                  </label>
+                  <button type="button" class="Mposts_button" id="ok_button_add">OK</button>
+              </form>
+          </div>
+
+            <form class="logInForm" id="log_form_win">
+                <p><textarea name="login" class="login-window" placeholder="username" maxlength="30"></textarea></p>
+                <p><textarea name="password" class="login-window" placeholder="password" maxlength="30"></textarea></p>
+
+                <button type="button" class="Mposts_button" id="log_form_button">Log In!</button>
+            </form>
+
+            <form class="editForm">
+                <p style="text-align: right"><b>Edit your post</b></p>
+                <input name="photoLink" class="add-window" placeholder="photo link" type="text">
+                <label>
+                    <p><textarea name="description" class="add-window" placeholder="description" maxlength="200" rows="4"></textarea></p>
+                    <p><textarea name="tags" class="add-window" placeholder="#tags" maxlength="200" rows="4"></textarea></p>
+                </label>
+                <button type="button" class="Mposts_button" id="edit_button">OK</button>
+            </form>
+
+
+        </main>
+
+      <main class="main">
+          <aside class="column left-aside">
+
+            <p><b>Filter</b></p>
+              <form class="searchForm">
+<!--              <p>author's name</p>-->
+<!--              <input type = "search" placeholder="name" id="searchName">-->
+              <p><select placeholder="name" selected="selected" name= "searchAuthor" class="searchInput"  id="searchName">
+                  <option value="name" selected="selected">name</option>
+              </select></p>
+              <p>tags</p>
+              <input type = "search" placeholder="#tags" name="searchTags" class="searchInput" id="searchTags">
+              <p>date</p>
+              <p>from</p>
+              <input type = "search" placeholder="yyyy-mm-dd" name="searchFrom" class="searchInput" id="dateDownLim">
+              <p>by</p>
+              <input type = "search" placeholder="yyyy-mm-dd" name="searchTo" class="searchInput" id="dateUpLim">
+              <p><button type = "submit" class="search_button">Search</button></p>
+              </form>
+          </aside>
+
+
+          <aside class="column right-aside">
+
+              <nav id="addButton">
+                <button type = "button" class="Mposts_button" id="add-post">+Add new post</button>
+              </nav>
+
+              <a id="posts">
+<!--              <article class="A-class">-->
+<!--                  <div>-->
+<!--                   <button type = "button" class="edit_button">Edit</button>-->
+<!--                      <button type = "button" class="delete_button">Delete</button>-->
+<!--               </div>-->
+<!--                  <div class="edit_window">-->
+<!--                      <button type="button" class="Mposts_button">Delete</button>-->
+<!--                      <button type="button" class="Mposts_button">Edit</button>-->
+<!--                      <div class="delete_window">-->
+<!--                          <form>-->
+<!--                              <p>Are you sure?</p>-->
+<!--                              <button type="button" class="Mposts_button">Yes</button>-->
+<!--                              <button type="button" class="Mposts_button">No</button>-->
+<!--                          </form>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--               <p class="name"><b>Alena_A</b></p>-->
+<!--               <p>20.02.2020 19.15</p>-->
+<!--               <hr>-->
+<!--                  <img src="resize.jpg"  width= "200" height= "150"  alt="природа">-->
+<!--               <p>Hi, now i am in a fascinating place and i enjoy watching this nature!</p>-->
+<!--               <p>#different tags</p>-->
+
+<!--                  108-->
+<!--               <button type = "button" class="like_button">Like</button>-->
+<!--               </article>-->
+
+
+                  </a>
+
+              <div>
+                  <button type = "button" class="loadMore" id="loadMore">More posts!</button></p>
+              </div>
+        </aside>
+      </main>
+
+      <footer class="footer">
+        <span>
+          <p>Little home</p>
+          <p>TWITTER</p>
+        </span>
+
+        <span>
+          <p>Alena Galygo</p>
+          <p>2 cours 5 group</p>
+        </span>
+
+        <span>
+          <p>email: Nat_030178@mail.ru</p>
+          <p>last edit date: 20/02/2020</p>
+        </span>
+      </footer>
+
+    </div>
+  </body>
+  <script src="PostList.js"></script>
+  <script src="TweetsView.js"></script>
+  <script src="Controller.js"></script>
+</html>
