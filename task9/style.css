@@ -24,8 +24,9 @@ body {
   width: 70%;
   margin: 0 auto; /*располагаемся по центру*/
 }
-main {
+.main {
   height: calc(100% - 30%);
+  display: block;
 }
 .header {
   box-sizing: border-box;
@@ -62,26 +63,37 @@ main {
   height: 100%;
   text-align: center;
 }
-
+.posts {
+  display: inline;
+}
 .header span img {
   border-radius: 50%;
 }
 .log_button {
-
+ display: inline;
   border: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
   /*padding-left: 90%;*/
-
-
   background: #49274a;
-
   color: #f4decb;
+  outline: none;
 }
-input {
+.logout_button {
+  display: none;
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  /*padding-left: 90%;*/
+  background: #49274a;
+  color: #f4decb;
+  outline: none;
+}
+
+.searchInput {
   border-radius: 10px;
   width: 100%;
-  height: 6%;
+  height: 2.3rem;
   background-color: #f8eee7;
   border: 2px solid #49274a;
 }
@@ -130,7 +142,69 @@ input {
   border-radius: 8px;
   background: #94618e;
   color: #f8eee7;
+  outline: #f4decb;
 }
+.loadMore {
+  border: 2px solid #49274a;
+  border-radius: 8px;
+  background: #94618e;
+  color: #f8eee7;
+  display: none;
+  outline: #f4decb;
+}
+
+.forms {
+  height: 50%;
+  font-family: "Aclonica", "Georgia", serif;
+  font-size: 1.3rem;
+  line-height: 1rem;
+  text-align: center;
+  background-color: #f8eee7;
+  display: none;
+  padding: 7%;
+}
+.addForm {
+  display: none;
+  background-color: #f4decb;
+  border-radius: 20px;
+  padding: 10px 5% 10px 5%;
+  border: 30px solid #94618e;
+  margin-right: 15%;
+  margin-left: 15%;
+}
+.add-window {
+  border-radius: 10px;
+  width: 90%;
+  height: 4rem;
+  background-color: #f8eee7;
+  border: 2px solid #49274a;
+}
+.logInForm {
+  display: none;
+  background-color: #f4decb;
+  border-radius: 20px;
+  padding: 10px 5% 10px 5%;
+  border: 30px solid #94618e;
+  margin-right: 15%;
+  margin-left: 15%;
+}
+.editForm {
+  display: none;
+  background-color: #f4decb;
+  border-radius: 20px;
+  padding: 10px 5% 10px 5%;
+  border: 30px solid #94618e;
+  margin-right: 15%;
+  margin-left: 15%;
+}
+.login-window {
+  border-radius: 10px;
+  width: 70%;
+  height: 2.5rem;
+  background-color: #f8eee7;
+  border: 2px solid #49274a;
+}
+
 .like_button {
   border: #49274a;
   border-radius: 5px;
@@ -147,12 +221,25 @@ input {
   border: 0px;
   padding-top: 0px;
   padding-bottom: 0px;
-  /*padding-left: 90%;*/
-  font-size: 2.5rem;
+  font-size: 1rem;
   border-radius: 8px;
   background: #f4decb;
   color: #94618e;
-
+}
+.delete_button {
+  border: 0px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  font-size: 1rem;
+  border-radius: 8px;
+  background: #f4decb;
+  color: #94618e;
+}
+.edit_window {
+  display: none;
+}
+.delete_window {
+  display: none;
 }
 
 .A-class {
